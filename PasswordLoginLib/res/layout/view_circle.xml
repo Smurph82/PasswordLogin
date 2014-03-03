@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.smurph.passwordlogin.CircleView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/circle_width"
+    android:layout_height="@dimen/circle_height"
+    android:padding="1dp" />

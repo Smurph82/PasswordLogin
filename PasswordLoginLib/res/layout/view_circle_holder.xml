@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:weightSum="4" >
+
+    <include
+        android:id="@id/circle_one"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        layout="@layout/view_circle" />
+
+    <include
+        android:id="@id/circle_two"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        layout="@layout/view_circle" />
+
+    <include
+        android:id="@id/circle_three"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        layout="@layout/view_circle" />
+
+    <include
+        android:id="@id/circle_four"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
+        android:layout_weight="1"
+        layout="@layout/view_circle" />
+
+</LinearLayout>

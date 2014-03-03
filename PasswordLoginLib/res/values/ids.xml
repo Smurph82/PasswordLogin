@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <item name="circle_one" type="id">0x10000000</item>
+    <item name="circle_two" type="id">0x10000001</item>
+    <item name="circle_three" type="id">0x10000002</item>
+    <item name="circle_four" type="id">0x10000003</item>
+    
+</resources>

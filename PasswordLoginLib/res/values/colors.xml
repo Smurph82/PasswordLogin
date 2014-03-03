@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="circle_border">#aa8d8d8d</color>
+    <color name="circle_filled">#aae7a916</color>
+    <color name="circle_unfilled">#ccc7c7c7</color>
+
+</resources>

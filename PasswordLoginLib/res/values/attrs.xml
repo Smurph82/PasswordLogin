@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="circleView">
+    <!-- Color -->
+    <attr name="color_border" format="reference|color" />
+    <attr name="color_filled" format="reference|color" />
+    <attr name="color_unfilled" format="reference|color" />
+  </declare-styleable>
+</resources>
