@@ -163,7 +163,6 @@ public class KeyGen {
 			
 			if (D) Log.i(TAG, "save: KeyStore created.");
 			
-			clean();
 		} catch (KeyStoreException e) {
 			e.printStackTrace();
 		} catch (NoSuchProviderException e) {
@@ -207,7 +206,8 @@ public class KeyGen {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		return null;	}
+		return null;	
+	}
 	
 	/**  */
 	public static final String HAS_KEYSTORE = "has_keystore";

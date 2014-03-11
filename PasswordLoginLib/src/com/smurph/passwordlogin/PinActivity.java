@@ -441,7 +441,7 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 	private boolean mIsFirstPin = true;
 
 	/**  */
-	private final String KEY_HASHED_PASS = "hashed_pass";
+	public static final String KEY_HASHED_PASS = "hashed_pass";
 	
 	/**  */
 	private boolean mIsCreateMode = true;
