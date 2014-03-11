@@ -2,10 +2,13 @@
 <resources>
 
     <string name="app_name">PasswordLogin</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="delete">Delete</string>
     <string name="enter">Return</string>
     <string name="wrong_pin">Wrong pin. Try again.</string>
+    <string name="enter_pin">Enter Pin</string>
+    <string name="reenter_pin">Re-enter Pin</string>
+    <string name="protecting">Protecting&#8230;</string>
+    <string name="of_5_attempts">%d of 5 attempts.</string>
+    <string name="removing_pin_protection">Removing pin protection&#8230;</string>
 
 </resources>
