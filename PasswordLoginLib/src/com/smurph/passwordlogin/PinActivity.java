@@ -20,10 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 
-import javax.crypto.SecretKey;
-
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -71,37 +68,42 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.key_1) {
-			mPin += 1;
-			pinEntered();
-		} else if (id == R.id.key_2) {
-			mPin += 2;
-			pinEntered();
-		} else if (id == R.id.key_3) {
-			mPin += 3;
-			pinEntered();
-		} else if (id == R.id.key_4) {
-			mPin += 4;
-			pinEntered();
-		} else if (id == R.id.key_5) {
-			mPin += 5;
-			pinEntered();
-		} else if (id == R.id.key_6) {
-			mPin += 6;
-			pinEntered();
-		} else if (id == R.id.key_7) {
-			mPin += 7;
-			pinEntered();
-		} else if (id == R.id.key_8) {
-			mPin += 8;
-			pinEntered();
-		} else if (id == R.id.key_9) {
-			mPin += 9;
-			pinEntered();
-		} else if (id == R.id.key_0) {
-			mPin += 0;
-			pinEntered();
-		} else if (id == R.id.key_delete) {
+		if (mPin.length()<4) {
+			if (id == R.id.key_1) {
+				mPin += 1;
+				pinEntered();
+			} else if (id == R.id.key_2) {
+				mPin += 2;
+				pinEntered();
+			} else if (id == R.id.key_3) {
+				mPin += 3;
+				pinEntered();
+			} else if (id == R.id.key_4) {
+				mPin += 4;
+				pinEntered();
+			} else if (id == R.id.key_5) {
+				mPin += 5;
+				pinEntered();
+			} else if (id == R.id.key_6) {
+				mPin += 6;
+				pinEntered();
+			} else if (id == R.id.key_7) {
+				mPin += 7;
+				pinEntered();
+			} else if (id == R.id.key_8) {
+				mPin += 8;
+				pinEntered();
+			} else if (id == R.id.key_9) {
+				mPin += 9;
+				pinEntered();
+			} else if (id == R.id.key_0) {
+				mPin += 0;
+				pinEntered();
+			}
+			return;
+		}
+		
+		if (id == R.id.key_delete) {
 			pinRemoved();
 		} else if (id == R.id.key_return) {
 			checkPin();
@@ -119,12 +121,12 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 	 * @param cr
 	 * @param key
 	 */
-	protected abstract void encryptSecret(ContentResolver cr, SecretKey key);
+//	protected abstract void encryptSecret(ContentResolver cr, SecretKey key);
 	
 	/**
 	 * @param key
 	 */
-	protected abstract void decryptSecret(SecretKey key);
+//	protected abstract void decryptSecret(SecretKey key);
 	
 	/**
 	 * 
@@ -161,76 +163,76 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 			return;
 		}
 		
-		if (mIsCreateMode) {
-			if (mIsFirstPin) {
-				mTxtInfo.setText("Please enter pin again to confirm.");
-				mTxtInfo.setVisibility(View.VISIBLE);
-				
-				mPinFirst = mPin;
-
-				resetPin();
-				
-				mIsFirstPin = false;
-				return;
-			}
-			
-			if (mPinFirst.equals(mPin)) {
-				new AsyncTask<String, Void, String>() {
-					@Override
-					protected void onPreExecute() {
-						super.onPreExecute();							
-						if (mProgress!=null)
-							mProgress.setVisibility(View.VISIBLE);
-					}
-
-					@Override
-					protected String doInBackground(String... params) {
-						String pin = params[0];
-						PBKDF2Hash hasher;
-						try {
-							// Hash pin
-							hasher = new PBKDF2Hash(10000, 256);
-							String hash = hasher.hashPassword(pin, hasher.generateSalt(), true);
-							
-							// Generate SecretKey to protect the secret
-							KeyGen generator = new KeyGen(PinActivity.this, pin, 10000, 256);
-							SecretKey key = generator.generateAndSave();
-							
-							encryptSecret(PinActivity.this.getContentResolver(), key);
-							
-							return hash;
-						} catch (NoSuchAlgorithmException e) {
-							e.printStackTrace();
-						} catch (InvalidKeySpecException e) {
-							e.printStackTrace();
-						} catch (NoSuchProviderException e) {
-							e.printStackTrace();
-						} finally {
-							pin = null;
-							hasher = null;
-						}
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(String result) {
-						super.onPostExecute(result);							
-						if (mProgress!=null && mProgress.getVisibility()==View.VISIBLE)
-							mProgress.setVisibility(View.INVISIBLE);
-						
-						if (!result.isEmpty()) {
-							PreferenceManager.getDefaultSharedPreferences(PinActivity.this).edit()
-								.putString(KEY_HASHED_PASS, result).commit();
-							pinSaved(true);
-						} else {
-							pinSaved(false);
-						}
-					
-					}
-				}.execute(mPin);
-			}
-			return;
-		} else {
+//		if (mIsCreateMode) {
+//			if (mIsFirstPin) {
+//				mTxtInfo.setText("Please enter pin again to confirm.");
+//				mTxtInfo.setVisibility(View.VISIBLE);
+//				
+//				mPinFirst = mPin;
+//
+//				resetPin();
+//				
+//				mIsFirstPin = false;
+//				return;
+//			}
+//			
+//			if (mPinFirst.equals(mPin)) {
+//				new AsyncTask<String, Void, String>() {
+//					@Override
+//					protected void onPreExecute() {
+//						super.onPreExecute();							
+//						if (mProgress!=null)
+//							mProgress.setVisibility(View.VISIBLE);
+//					}
+//
+//					@Override
+//					protected String doInBackground(String... params) {
+//						String pin = params[0];
+//						PBKDF2Hash hasher;
+//						try {
+//							// Hash pin
+//							hasher = new PBKDF2Hash(10000, 256);
+//							String hash = hasher.hashPassword(pin, hasher.generateSalt(), true);
+//							
+//							// Generate SecretKey to protect the secret
+//							KeyGen generator = new KeyGen(PinActivity.this, pin, 10000, 256);
+//							SecretKey key = generator.generateAndSave();
+//							
+//							encryptSecret(PinActivity.this.getContentResolver(), key);
+//							
+//							return hash;
+//						} catch (NoSuchAlgorithmException e) {
+//							e.printStackTrace();
+//						} catch (InvalidKeySpecException e) {
+//							e.printStackTrace();
+//						} catch (NoSuchProviderException e) {
+//							e.printStackTrace();
+//						} finally {
+//							pin = null;
+//							hasher = null;
+//						}
+//						return null;
+//					}
+//
+//					@Override
+//					protected void onPostExecute(String result) {
+//						super.onPostExecute(result);							
+//						if (mProgress!=null && mProgress.getVisibility()==View.VISIBLE)
+//							mProgress.setVisibility(View.INVISIBLE);
+//						
+//						if (!result.isEmpty()) {
+//							PreferenceManager.getDefaultSharedPreferences(PinActivity.this).edit()
+//								.putString(KEY_HASHED_PASS, result).commit();
+//							pinSaved(true);
+//						} else {
+//							pinSaved(false);
+//						}
+//					
+//					}
+//				}.execute(mPin);
+//			}
+//			return;
+//		} else {
 			new AsyncTask<String, Void, Boolean>() {
 				@Override
 				protected void onPreExecute() {
@@ -283,7 +285,7 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 					pinVerified(result);
 				}
 			}.execute(mHashedPin.split(":"));
-		}
+//		}
 	}
 	
 	/**
