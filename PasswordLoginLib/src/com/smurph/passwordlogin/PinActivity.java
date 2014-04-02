@@ -117,17 +117,6 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 	protected abstract void onLoadBypass();
 	
 	/**
-	 * @param cr
-	 * @param key
-	 */
-//	protected abstract void encryptSecret(ContentResolver cr, SecretKey key);
-	
-	/**
-	 * @param key
-	 */
-//	protected abstract void decryptSecret(SecretKey key);
-	
-	/**
 	 * 
 	 * @param isVerified
 	 */
@@ -161,130 +150,59 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 			Log.i(TAG, "checkPin: Pin must be 4 digits long.");
 			return;
 		}
-		
-//		if (mIsCreateMode) {
-//			if (mIsFirstPin) {
-//				mTxtInfo.setText("Please enter pin again to confirm.");
-//				mTxtInfo.setVisibility(View.VISIBLE);
-//				
-//				mPinFirst = mPin;
-//
-//				resetPin();
-//				
-//				mIsFirstPin = false;
-//				return;
-//			}
-//			
-//			if (mPinFirst.equals(mPin)) {
-//				new AsyncTask<String, Void, String>() {
-//					@Override
-//					protected void onPreExecute() {
-//						super.onPreExecute();							
-//						if (mProgress!=null)
-//							mProgress.setVisibility(View.VISIBLE);
-//					}
-//
-//					@Override
-//					protected String doInBackground(String... params) {
-//						String pin = params[0];
-//						PBKDF2Hash hasher;
-//						try {
-//							// Hash pin
-//							hasher = new PBKDF2Hash(10000, 256);
-//							String hash = hasher.hashPassword(pin, hasher.generateSalt(), true);
-//							
-//							// Generate SecretKey to protect the secret
-//							KeyGen generator = new KeyGen(PinActivity.this, pin, 10000, 256);
-//							SecretKey key = generator.generateAndSave();
-//							
-//							encryptSecret(PinActivity.this.getContentResolver(), key);
-//							
-//							return hash;
-//						} catch (NoSuchAlgorithmException e) {
-//							e.printStackTrace();
-//						} catch (InvalidKeySpecException e) {
-//							e.printStackTrace();
-//						} catch (NoSuchProviderException e) {
-//							e.printStackTrace();
-//						} finally {
-//							pin = null;
-//							hasher = null;
-//						}
-//						return null;
-//					}
-//
-//					@Override
-//					protected void onPostExecute(String result) {
-//						super.onPostExecute(result);							
-//						if (mProgress!=null && mProgress.getVisibility()==View.VISIBLE)
-//							mProgress.setVisibility(View.INVISIBLE);
-//						
-//						if (!result.isEmpty()) {
-//							PreferenceManager.getDefaultSharedPreferences(PinActivity.this).edit()
-//								.putString(KEY_HASHED_PASS, result).commit();
-//							pinSaved(true);
-//						} else {
-//							pinSaved(false);
-//						}
-//					
-//					}
-//				}.execute(mPin);
-//			}
-//			return;
-//		} else {
-			new AsyncTask<String, Void, Boolean>() {
-				@Override
-				protected void onPreExecute() {
-					super.onPreExecute();							
-					if (mProgress!=null)
-						mProgress.setVisibility(View.VISIBLE);
-				}
+		new AsyncTask<String, Void, Boolean>() {
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();							
+				if (mProgress!=null)
+					mProgress.setVisibility(View.VISIBLE);
+			}
 
-				@Override
-				protected Boolean doInBackground(String... params) {
+			@Override
+			protected Boolean doInBackground(String... params) {
+				
+				PBKDF2Hash hasher;
+				try {
 					
-					PBKDF2Hash hasher;
-					try {
-						
-						hasher = new PBKDF2Hash(10000, 256);						
-						return hasher.verifyPassword(mPin, params[1], params[0]);
-						
-					} catch (NoSuchAlgorithmException e) {
-						e.printStackTrace();
-					} catch (InvalidKeySpecException e) {
-						e.printStackTrace();
-					} catch (NoSuchProviderException e) {
-						e.printStackTrace();
-					} catch (Base64DecodingException e) {
-						e.printStackTrace();
-					} finally {
-						hasher = null;
-					}					
-					return false;
-				}
+					hasher = new PBKDF2Hash(10000, 256);						
+					return hasher.verifyPassword(mPin, params[1], params[0]);
+					
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (InvalidKeySpecException e) {
+					e.printStackTrace();
+				} catch (NoSuchProviderException e) {
+					e.printStackTrace();
+				} catch (Base64DecodingException e) {
+					e.printStackTrace();
+				} finally {
+					hasher = null;
+				}					
+				return false;
+			}
 
-				@Override
-				protected void onPostExecute(Boolean result) {
-					super.onPostExecute(result);							
-					if (mProgress!=null && mProgress.getVisibility()==View.VISIBLE)
-						mProgress.setVisibility(View.INVISIBLE);
-					
-					if (!result) {
-						mFailCount++;
-						mTxtInfo.setText(R.string.wrong_pin);
-						mTxtInfo.setVisibility(View.VISIBLE);
-						mTxtInfo.postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								mTxtInfo.setVisibility(View.INVISIBLE);
-							}
-						}, 1500);
-					}
-					
-					pinVerified(result);
+			@Override
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);							
+				if (mProgress!=null && mProgress.getVisibility()==View.VISIBLE)
+					mProgress.setVisibility(View.INVISIBLE);
+				
+				if (!result) {
+					AttentionAnima.nope(mCircleHolder).start();
+					mFailCount++;
+					mTxtInfo.setText(getString(R.string.wrong_pin) + "\n" + getString(R.string.of_5_attempts, mFailCount));
+					mTxtInfo.setVisibility(View.VISIBLE);
+					mTxtInfo.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							mTxtInfo.setVisibility(View.INVISIBLE);
+						}
+					}, 2000);
 				}
-			}.execute(mHashedPin.split(":"));
-//		}
+				
+				pinVerified(result);
+			}
+		}.execute(mHashedPin.split(":"));
 	}
 	
 	/**
@@ -396,6 +314,8 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 		
 		mTxtInfo = (TextView) findViewById(R.id.txtWrongPin);
 		
+		mCircleHolder = findViewById(R.id.circle_holder);
+		
 		mCircleOne = (CircleView) findViewById(R.id.circle_one);
 		mCircleTwo = (CircleView) findViewById(R.id.circle_two);
 		mCircleThree = (CircleView) findViewById(R.id.circle_three);
@@ -446,6 +366,9 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 	
 	/**  */
 	private boolean mIsCreateMode = true;
+	
+	/**  */
+	private View mCircleHolder;
 	
 	/**  */
 	private ProgressBar mProgress;
