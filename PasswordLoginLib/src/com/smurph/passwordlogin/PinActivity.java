@@ -100,7 +100,6 @@ public abstract class PinActivity extends Activity implements OnClickListener {
 				mPin += 0;
 				pinEntered();
 			}
-			return;
 		}
 		
 		if (id == R.id.key_delete) {
