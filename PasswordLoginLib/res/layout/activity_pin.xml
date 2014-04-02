@@ -26,6 +26,8 @@
         android:layout_above="@+id/proHash"
         android:layout_marginBottom="5dp"
         android:gravity="center"
+        android:minLines="2"
+        android:lines="2"
         android:text="@string/wrong_pin"
         android:visibility="invisible" />
 
@@ -36,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/keypad_holder"
         android:layout_centerHorizontal="true"
-        android:indeterminateOnly="true"
         android:indeterminateBehavior="repeat"
+        android:indeterminateOnly="true"
         android:visibility="invisible" />
 
     <include
